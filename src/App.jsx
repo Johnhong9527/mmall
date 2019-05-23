@@ -1,66 +1,35 @@
-import * as React from 'react';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { LocaleProvider } from 'antd';
+import zh_CN from 'antd/lib/locale-provider/zh_CN';
+import moment from 'moment';
+// import 'moment/locale/en-us';
 import { BrowserRouter as Router, Switch, Redirect, Route, Link } from 'react-router-dom';
-import { Button, Row, Col,Pagination } from 'antd';
 import './App.scss';
-export default class App extends React.Component {
-	constructor(props) {
-		super(props);
-		this.state = {
-			name: '飞鼠',
-			age: 18
-		};
-	}
+moment.locale('zh-cn');
+// Components
+import HLayout from 'component/layout/index.jsx';
+// Page
+import Home from 'page/home/index.jsx';
 
-	heandleClick() {
-		this.setState({
-			age: this.state.age + 1
-		});
-	}
-
-	onValueChange() {
-		this.setState({
-			age: this.state.age + 1
-		});
-	}
-
+class App extends React.Component {
 	render() {
 		return (
-			<div>
-				<Row>
-					<Pagination defaultCurrent={1} total={50} showSizeChanger />
-				</Row>
-				<Row>
-					<Col span={12}>
-						<h2>I am {this.state.name}</h2>
-						<p>I am {this.state.age}</p>
-						<div className="context">i am {this.state.name}</div>
-						<Button
-							onClick={e => {
-								this.heandleClick(e);
-							}}
-						>
-							加一岁
-						</Button>
-						<input
-							type="text"
-							onChange={e => {
-								this.onValueChange(e);
-							}}
-						/>
-					</Col>
-				</Row>
-				<Row>
-					<Col span={12}>
-						<div>
-							<Button type="primary">Primary</Button>
-							<Button>Default</Button>
-							<Button type="dashed">Dashed</Button>
-							<Button type="danger">Danger</Button>
-							<Button type="link">Link</Button>
-						</div>
-					</Col>
-				</Row>
-			</div>
+			<Router>
+				<HLayout>
+					<Switch>
+						<Route exact path="/" component={Home} />
+						<Redirect from="*" to="/" />
+					</Switch>
+				</HLayout>
+			</Router>
 		);
 	}
 }
+
+ReactDOM.render(
+	<LocaleProvider locale={zh_CN}>
+		<App />
+	</LocaleProvider>,
+	document.getElementById('app')
+);

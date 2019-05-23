@@ -5,7 +5,7 @@ const htmlPlugin = new HtmlWebpackPlugin({
   filename: './index.html'
 });
 module.exports = {
-  entry: './src/index.jsx',
+  entry: './src/App.jsx',
   resolve: {
     alias: {
       page: path.resolve(__dirname, 'src/page'),
