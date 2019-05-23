@@ -7,61 +7,98 @@ export default class SideNav extends React.Component {
 		super(props);
 		this.state = {
 			theme: 'dark',
-			current: '0'
+			current: '0',
+			myTextInput: ''
 		};
 	}
 	handleClick(e) {
-		console.log('click ', e);
+		console.log(e);
 		this.setState({
 			current: e.key
 		});
 	}
+	submenuClick(e) {
+		// this.setState({
+		// 	current: e.key
+		// });
+	}
+	componentDidMount() {
+		this.setState({
+			current: '1'
+		});
+	}
+	// print(){
+	// 	console.log(31);
+	// }
+	// 组件的props发生变化，触发该函数
+	// componentDidUpdate(prevProps) {
+	// 	// 监听到数据变化，设置路由数据
+	// 	this.print();
+	// 	// console.log(this.state.current);
+	// }
 	render() {
 		return (
 			<div id="SideNav">
-				<div className="logo" />
+				<div className="logo">
+					<span>HAPPY</span> MMALL
+				</div>
 				<Menu
 					theme={this.state.theme}
 					onClick={e => {
 						this.handleClick(e);
 					}}
-					defaultOpenKeys={['0']}
+					style={{ width: 256 }}
+					defaultSelectedKeys={['1']}
 					selectedKeys={[this.state.current]}
 					mode="inline"
 				>
-					<Menu.Item key="0">
-						<Icon type="pie-chart" />
-						<span>Option 1</span>
+					<Menu.Item key="1">
+						<Icon type="dashboard" />
+						<span>首页</span>
 					</Menu.Item>
 					<SubMenu
-						key="sub1"
+						key="2"
+						onTitleClick={e => {
+							this.submenuClick(e);
+						}}
 						title={
 							<span>
-								<Icon type="mail" />
-								<span>Navigation One</span>
+								<Icon type="unordered-list" />
+								<span>商品</span>
 							</span>
 						}
 					>
-						<Menu.Item key="1">Option 1</Menu.Item>
-						<Menu.Item key="2">Option 2</Menu.Item>
-						<Menu.Item key="3">Option 3</Menu.Item>
-						<Menu.Item key="4">Option 4</Menu.Item>
+						<Menu.Item key="2">商品管理</Menu.Item>
+						<Menu.Item key="3">品类管理</Menu.Item>
 					</SubMenu>
 					<SubMenu
-						key="sub2"
+						key="4"
+						onTitleClick={e => {
+							this.submenuClick(e);
+						}}
 						title={
 							<span>
 								<Icon type="appstore" />
-								<span>Navigtion Two</span>
+								<span>订单</span>
 							</span>
 						}
 					>
-						<Menu.Item key="5">Option 5</Menu.Item>
-						<Menu.Item key="6">Option 6</Menu.Item>
-						<SubMenu key="sub3" title="Submenu">
-							<Menu.Item key="7">Option 7</Menu.Item>
-							<Menu.Item key="8">Option 8</Menu.Item>
-						</SubMenu>
+						<Menu.Item key="4">订单管理</Menu.Item>
+					</SubMenu>
+
+					<SubMenu
+						key="5"
+						onTitleClick={e => {
+							this.submenuClick(e);
+						}}
+						title={
+							<span>
+								<Icon type="user" />
+								<span>用户</span>
+							</span>
+						}
+					>
+						<Menu.Item key="5">用户列表</Menu.Item>
 					</SubMenu>
 				</Menu>
 			</div>
