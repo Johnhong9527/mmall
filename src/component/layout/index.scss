@@ -1,3 +1,12 @@
 .ant-layout-header {
+  padding: 0 15px;
   text-align: right;
+  position: relative;
+  .trigger {
+    font-size: 20px;
+    color: #fff;
+    position: absolute;
+    left: 15px;
+    top: 20px;
+  }
 }

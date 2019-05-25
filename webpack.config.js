@@ -1,28 +1,53 @@
 const path = require('path');
+const join = path.join;
+const resolve = path.resolve;
+const tmpdir = require('os').tmpdir;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const htmlPlugin = new HtmlWebpackPlugin({
   template: './src/index.html',
-  filename: './index.html'
+  filename: './index.html',
+  favicon: './favicon.ico'
 });
+// mock data
+const appData = require('./data.json');
+const statistic = appData.statistic;
+const user = appData.user;
+const category = appData.category;
+
 module.exports = {
   entry: './src/App.jsx',
   resolve: {
     alias: {
       page: path.resolve(__dirname, 'src/page'),
       component: path.resolve(__dirname, 'src/component')
-    }
+    },
+    modules: ['node_modules', join(__dirname, '../node_modules')],
+    extensions: ['.web.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.tsx', '.js', '.jsx', '.json']
+  },
+  output: {
+    publicPath: '/'
   },
   module: {
     rules: [
       {
-        test: /\.(js|jsx)$/,
+        test: /\.jsx?$/,
         exclude: /node_module/,
         use: {
           loader: 'babel-loader',
           options: {
             presets: ['react', 'env'],
             cacheDirectory: true,
-            plugins: [['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }]]
+            cacheDirectory: tmpdir(),
+            presets: [
+              require.resolve('babel-preset-es2015-ie'),
+              require.resolve('babel-preset-react'),
+              require.resolve('babel-preset-stage-0')
+            ],
+            plugins: [
+              require.resolve('babel-plugin-add-module-exports'),
+              require.resolve('babel-plugin-transform-decorators-legacy'),
+              ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }]
+            ]
           }
         }
       },
@@ -73,6 +98,24 @@ module.exports = {
         ]
       }
     ]
+  },
+  devServer: {
+    port: 8080,
+    historyApiFallback: true,
+    before(app) {
+      app.get('/api/statistic', function(req, res) {
+        res.json(statistic);
+      });
+    },
+    // proxy: {
+    //   '/manage': {
+    //     // target: 'https://bird.ioliu.cn/v1?url=http://adminv2.happymmall.com/manage/',
+    //     target: 'http://adminv2.happymmall.com/manage/',
+    //     // target: 'https://www.baidu.com',
+    //     pathRewrite: { '^/manage': '' },
+    //     secure: false
+    //   }
+    // }
   },
   plugins: [htmlPlugin]
 };
