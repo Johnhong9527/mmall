@@ -2,7 +2,7 @@
  * @Author: Johnhong9527
  * @Date:   2019-05-25 20:29:31
  * @Last Modified by:   Johnhong9527
- * @Last Modified time: 2019-05-25 22:13:07
+ * @Last Modified time: 2019-05-25 22:26:52
  */
 
 import React from 'react';
@@ -61,7 +61,7 @@ export default class Login extends React.Component {
                 <Row>
                   <Col span={22} push={1}>
                     <Button block type="primary">
-                      登陆
+                      登陆1
                     </Button>
                   </Col>
                 </Row>
