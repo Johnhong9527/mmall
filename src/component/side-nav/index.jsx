@@ -57,7 +57,7 @@ class SideNav extends React.Component {
 			if (this.state.userInfo === '') {
 				_mutil.doLogin();
 			}
-			console.log(this.props.location.pathname.split('-')[0]);
+			// console.log(this.props.location.pathname.split('-')[0]);
 			this.setState({
 				current: this.props.location.pathname
 			});

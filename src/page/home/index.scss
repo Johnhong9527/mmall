@@ -3,4 +3,30 @@
   padding: 10px 30px;
   // background-color: blue;
   font-size: 20px;
+  .color-box {
+    padding: 20px 0;
+    height: 160px;
+    text-align: center;
+    opacity: 0.9;
+    color: #fff;
+    transition: all 220ms ease-in-out;
+    &.brown {
+      background-color: #f0ad4e;
+    }
+    &.green {
+      background-color: #5cb85c;
+    }
+    &.blue {
+      background-color: #4cb1cf;
+    }
+    .number{
+      font-size: 50px;
+      line-height: 90px
+    }
+    &:hover {
+      transform: scale(1.075, 1.075);
+      color: #000;
+      opacity: 1;
+    }
+  }
 }

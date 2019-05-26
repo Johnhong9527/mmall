@@ -33,7 +33,6 @@ export default class HLayout extends React.Component {
             {/* <HBreadcrumb /> */}
             {this.props.children}
           </Content>
-          <Footer>Footer</Footer>
         </Layout>
       </Layout>
     );
