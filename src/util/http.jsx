@@ -2,9 +2,12 @@
  * @Author: Johnhong9527
  * @Date:   2019-05-25 17:58:36
  * @Last Modified by:   Johnhong9527
- * @Last Modified time: 2019-05-26 14:40:38
+ * @Last Modified time: 2019-05-26 16:29:34
  */
 import axios from 'axios';
+import MUtil from 'util/mutil.jsx';
+import { message } from 'antd';
+const _mutil = new MUtil();
 // 请求列表
 const requestList = [];
 // 取消列表
@@ -58,7 +61,7 @@ axios.interceptors.response.use(
       };
     } else if (response.data.status === 10) {
       // window.ELEMENT.Message.error('认证失效，请重新登录！', 1000);
-      doLogin();
+      _mutil.doLogin();
       return;
     } else {
       return Promise.reject(response.data.msg || response.data.data);
@@ -78,9 +81,12 @@ axios.interceptors.response.use(
 
 const request = function(url, params, config, method) {
   const fd = new FormData();
-  Object.keys(params).forEach(key => {
-    fd.append(key, params[key]);
-  });
+  if (params) {
+    Object.keys(params).forEach(key => {
+      fd.append(key, params[key]);
+    });
+  }
+  const loading = message.loading('正在提交中！', 0);
   return new Promise((resolve, reject) => {
     axios[method](
       url,
@@ -96,9 +102,11 @@ const request = function(url, params, config, method) {
     )
       .then(
         response => {
+          setTimeout(loading, 1300);
           resolve(response);
         },
         err => {
+          setTimeout(loading, 10);
           if (err.Cancel) {
             console.log(err);
           } else {
@@ -119,8 +127,5 @@ const post = (url, params, config = {}) => {
 const get = (url, params, config = {}) => {
   return request(url, params, config, 'get');
 };
-function doLogin() {
-  window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
-}
 
 export { sources, post, get };

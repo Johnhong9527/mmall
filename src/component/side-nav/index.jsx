@@ -1,18 +1,11 @@
 import React from 'react';
 import { Menu, Icon, Button, Switch } from 'antd';
 import { BrowserRouter as Router, Route, Link, withRouter } from 'react-router-dom';
-// import { BrowserRouter as Link } from 'react-router-dom';
+import MUtil from 'util/mutil.jsx';
+
 import './index.scss';
 const SubMenu = Menu.SubMenu;
-// function Logo(props) {
-// 	const { collapsed } = props;
-// 	console.log('collapsed');
-// 	if (props) {
-// 		return <div>123</div>;
-// 	} else {
-// 		return <div>456</div>;
-// 	}
-// }
+const _mutil = new MUtil();
 class Logo extends React.Component {
 	constructor(props) {
 		super(props);
@@ -44,41 +37,32 @@ class SideNav extends React.Component {
 			theme: 'dark',
 			current: '/',
 			// defaultOpen: 'product',
-			myTextInput: ''
+			myTextInput: '',
+			userInfo: _mutil.getStorage('userInfo') || ''
 		};
 	}
 	handleClick(e) {
+		const pathname = this.props.history.location.pathname;
 		this.setState({
 			current: e.key
 		});
-		console.log(this.props.history.location.pathname);
+
+		if (pathname !== '/' && this.state.userInfo === '') {
+			_mutil.doLogin();
+		}
 	}
-	submenuClick(e) {
-		// this.setState({
-		// 	current: e.key
-		// });
-	}
+
 	componentWillMount() {
 		if (this.props.location.pathname !== '/') {
+			if (this.state.userInfo === '') {
+				_mutil.doLogin();
+			}
 			console.log(this.props.location.pathname.split('-')[0]);
 			this.setState({
-				current: this.props.location.pathname,
-				// defaultOpen: this.props.location.pathname.split('-')[0].replace('/', '')
+				current: this.props.location.pathname
 			});
 		}
-
-		// console.log(30);
 	}
-	componentDidMount() {}
-	// print(){
-	// 	console.log(31);
-	// }
-	// 组件的props发生变化，触发该函数
-	// componentDidUpdate(prevProps) {
-	// 	// 监听到数据变化，设置路由数据
-	// 	this.print();
-	// 	// console.log(this.state.current);
-	// }
 	render() {
 		return (
 			<div id="SideNav">

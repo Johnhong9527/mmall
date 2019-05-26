@@ -2,7 +2,7 @@
  * @Author: Johnhong9527
  * @Date:   2019-05-25 20:29:31
  * @Last Modified by:   Johnhong9527
- * @Last Modified time: 2019-05-26 14:42:02
+ * @Last Modified time: 2019-05-26 16:28:31
  */
 
 import React from 'react';
@@ -41,23 +41,25 @@ export default class Login extends React.Component {
     if (!checkResult.status) {
       _mutil.errorTips(checkResult.msg);
     } else {
-      const loading = message.loading('正在提交中！', 0);
       _user.login(loginInfo).then(
         res => {
           if (res.msg === '登录成功') {
-            setTimeout(loading, 1300);
             setTimeout(() => {
               message.success('登陆成功,', 0.5).then(() => {
-                window.localStorage.setItem('userInfo', JSON.stringify(res));
+                _mutil.setStorage('userInfo', res.data);
                 message.loading('正在跳转到登录前的页面', 1.5).then(() => {
-                  this.props.history.push('/');
+                  const pathName = _mutil.getUrlParams('redirect');
+                  if (pathName) {
+                    this.props.history.push(pathName);
+                  } else {
+                    this.props.history.push('/');
+                  }
                 });
               });
             }, 1600);
           }
         },
         errMsg => {
-          setTimeout(loading, 10);
           setTimeout(() => {
             _mutil.errorTips(errMsg);
           }, 300);

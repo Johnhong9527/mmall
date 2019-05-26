@@ -119,7 +119,8 @@ module.exports = {
         // target: 'https://www.baidu.com',
         // pathRewrite: { '^/manage': '' },
         // secure: false
-      }
+      },
+      '/user/logout.do': { target: 'http://adminv2.happymmall.com', changeOrigin: true }
     }
   },
   plugins: [
