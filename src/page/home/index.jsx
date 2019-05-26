@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, PageHeader, Icon, Row, Col } from 'antd';
+import {Button, PageHeader, Icon, Row, Col} from 'antd';
 import PageTitle from 'component/page-title/index.jsx';
 import './index.scss';
 import Statistic from 'api/statistic.jsx';
@@ -16,6 +16,7 @@ export default class Home extends React.Component {
       orderCount: '_'
     };
   }
+
   componentDidMount() {
     _statistic.getHomeCount().then(
       res => {
@@ -30,9 +31,11 @@ export default class Home extends React.Component {
       }
     );
   }
+
   getUser() {
     console.log(7);
   }
+
   render() {
     return (
       <div className="page-wrapper">
@@ -40,13 +43,13 @@ export default class Home extends React.Component {
         <PageTitle title="首页" />
         <PageHeader title="首页"/>
         */}
-        <PageTitle title="首页" />
+        <PageTitle title="首页"/>
         <Row gutter={48}>
           <Col span={8}>
             <div className="color-box brown">
               <div className="number">{this.state.userCount}</div>
               <div className="desc">
-                <Icon type="user" />
+                <Icon type="user"/>
                 &nbsp;用户总数
               </div>
             </div>
@@ -55,7 +58,7 @@ export default class Home extends React.Component {
             <div className="color-box green">
               <div className="number">{this.state.productCount}</div>
               <div className="desc">
-                <Icon type="unordered-list" />
+                <Icon type="unordered-list"/>
                 &nbsp;商品总数
               </div>
             </div>
@@ -64,7 +67,7 @@ export default class Home extends React.Component {
             <div className="color-box blue">
               <div className="number">{this.state.orderCount}</div>
               <div className="desc">
-                <Icon type="appstore" />
+                <Icon type="appstore"/>
                 &nbsp;订单总数
               </div>
             </div>
