@@ -1,6 +1,7 @@
 const path = require('path');
 const join = path.join;
 const resolve = path.resolve;
+const webpack = require('webpack');
 const tmpdir = require('os').tmpdir;
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const htmlPlugin = new HtmlWebpackPlugin({
@@ -8,8 +9,9 @@ const htmlPlugin = new HtmlWebpackPlugin({
   filename: './index.html',
   favicon: './favicon.ico'
 });
+const config = require('./config/env-config');
 // mock data
-const appData = require('./data.json');
+const appData = require('./config/data.json');
 const statistic = appData.statistic;
 const user = appData.user;
 const category = appData.category;
@@ -19,7 +21,9 @@ module.exports = {
   resolve: {
     alias: {
       page: path.resolve(__dirname, 'src/page'),
-      component: path.resolve(__dirname, 'src/component')
+      component: path.resolve(__dirname, 'src/component'),
+      util: path.resolve(__dirname, 'src/util'),
+      api: path.resolve(__dirname, 'src/api')
     },
     modules: ['node_modules', join(__dirname, '../node_modules')],
     extensions: ['.web.tsx', '.web.ts', '.web.jsx', '.web.js', '.ts', '.tsx', '.js', '.jsx', '.json']
@@ -107,15 +111,21 @@ module.exports = {
         res.json(statistic);
       });
     },
-    // proxy: {
-    //   '/manage': {
-    //     // target: 'https://bird.ioliu.cn/v1?url=http://adminv2.happymmall.com/manage/',
-    //     target: 'http://adminv2.happymmall.com/manage/',
-    //     // target: 'https://www.baidu.com',
-    //     pathRewrite: { '^/manage': '' },
-    //     secure: false
-    //   }
-    // }
+    proxy: {
+      '/manage': {
+        // target: 'https://bird.ioliu.cn/v1?url=http://adminv2.happymmall.com/manage/',
+        target: 'http://adminv2.happymmall.com',
+        changeOrigin: true
+        // target: 'https://www.baidu.com',
+        // pathRewrite: { '^/manage': '' },
+        // secure: false
+      }
+    }
   },
-  plugins: [htmlPlugin]
+  plugins: [
+    htmlPlugin,
+    new webpack.DefinePlugin({
+      'process.env.BASE_URL': '"' + process.env.BASE_URL + '"'
+    })
+  ]
 };

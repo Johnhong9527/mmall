@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { LocaleProvider } from 'antd';
+import axios from 'axios';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import moment from 'moment';
 // import 'moment/locale/en-us';
@@ -16,7 +17,7 @@ import Login from 'page/login/index.jsx';
 import Product from 'page/product/index.jsx';
 import Order from 'page/order/index.jsx';
 import ProductCategory from 'page/product/category.jsx';
-
+axios.defaults.baseURL = process.env.BASE_URL;
 class App extends React.Component {
 	render() {
 		return (

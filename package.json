@@ -4,18 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode development --open",
-    "build": "webpack --mode production"
+    "start": "webpack-dev-server --dev --mode development --open",
+    "build": "webpack --pro --mode production"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "antd": "^3.18.2",
+    "axios": "^0.18.0",
+    "create-react-class": "^15.6.3",
     "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-router": "^5.0.0",
     "react-router-dom": "^5.0.0"
   },
   "devDependencies": {
