@@ -1,6 +1,12 @@
 import React from 'react';
-export default class  User extends React.Component {
+import './index.scss';
+
+export default class User extends React.Component {
   render() {
-    return <div>User</div> ;
+    return (
+      <div className="user-wrapper">
+        <span>User</span>
+      </div>
+    );
   }
 }
