@@ -110,18 +110,18 @@ module.exports = {
       app.get('/api/statistic', function(req, res) {
         res.json(statistic);
       });
-    },
-    proxy: {
-      '/manage': {
-        // target: 'https://bird.ioliu.cn/v1?url=http://adminv2.happymmall.com/manage/',
-        target: 'http://adminv2.happymmall.com',
-        changeOrigin: true
-        // target: 'https://www.baidu.com',
-        // pathRewrite: { '^/manage': '' },
-        // secure: false
-      },
-      '/user/logout.do': { target: 'http://adminv2.happymmall.com', changeOrigin: true }
     }
+    // proxy: {
+    //   '/manage': {
+    //     // target: 'https://bird.ioliu.cn/v1?url=http://adminv2.happymmall.com/manage/',
+    //     target: 'http://adminv2.happymmall.com',
+    //     changeOrigin: true
+    //     // target: 'https://www.baidu.com',
+    //     // pathRewrite: { '^/manage': '' },
+    //     // secure: false
+    //   },
+    //   '/user/logout.do': { target: 'http://adminv2.happymmall.com', changeOrigin: true }
+    // }
   },
   plugins: [
     htmlPlugin,

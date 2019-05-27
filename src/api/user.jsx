@@ -2,13 +2,19 @@
  * @Author: Johnhong9527
  * @Date:   2019-05-26 12:01:45
  * @Last Modified by:   Johnhong9527
- * @Last Modified time: 2019-05-26 16:01:45
+ * @Last Modified time: 2019-05-27 10:10:29
  */
 import { post, get } from 'util/http.jsx';
 export default class User {
+  // 用户登录
   login(loginInfo) {
     return post('/manage/user/login.do', loginInfo);
   }
+  // 用户列表  /manage/user/list.do
+  list(request) {
+    return post('/manage/user/list.do', request);
+  }
+  // 用户退出登录
   logout() {
     return post('/user/logout.do');
   }

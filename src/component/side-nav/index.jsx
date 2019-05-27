@@ -47,15 +47,16 @@ class SideNav extends React.Component {
 			current: e.key
 		});
 
-		if (pathname !== '/' && this.state.userInfo === '') {
-			_mutil.doLogin();
-		}
+		console.log(this.state.userInfo);
+		// if (pathname !== '/' && this.state.userInfo === '') {
+		// 	_mutil.doLogin();
+		// }
 	}
 
 	componentWillMount() {
 		if (this.props.location.pathname !== '/') {
 			if (this.state.userInfo === '') {
-				_mutil.doLogin();
+				// _mutil.doLogin();
 			}
 			// console.log(this.props.location.pathname.split('-')[0]);
 			this.setState({
@@ -105,9 +106,6 @@ class SideNav extends React.Component {
 					</SubMenu>
 					<SubMenu
 						key="order"
-						onTitleClick={e => {
-							this.submenuClick(e);
-						}}
 						title={
 							<span>
 								<Icon type="appstore" />
@@ -123,9 +121,6 @@ class SideNav extends React.Component {
 
 					<SubMenu
 						key="user"
-						onTitleClick={e => {
-							this.submenuClick(e);
-						}}
 						title={
 							<span>
 								<Icon type="user" />

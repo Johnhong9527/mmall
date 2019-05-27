@@ -12,7 +12,7 @@ moment.locale('zh-cn');
 import HLayout from 'component/layout/index.jsx';
 // Page
 import Home from 'page/home/index.jsx';
-import User from 'page/user/index.jsx';
+import UserPage from 'page/user/index.jsx';
 import Login from 'page/login/index.jsx';
 import Product from 'page/product/index.jsx';
 import Order from 'page/order/index.jsx';
@@ -33,7 +33,7 @@ class App extends React.Component {
 								<Switch>
 									<Route exact path="/" component={Home} />
 									<Route path="/home" component={Home} />
-									<Route path="/user" component={User} />
+									<Route path="/user" component={UserPage} />
 									<Route path="/product" component={Product} />
 									<Route path="/order" component={Order} />
 									<Route path="/product-category" component={ProductCategory} />
