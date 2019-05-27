@@ -17,6 +17,8 @@ import Login from 'page/login/index.jsx';
 import Product from 'page/product/index.jsx';
 import Order from 'page/order/index.jsx';
 import ProductCategory from 'page/product/category.jsx';
+import Error from 'page/error/index.jsx';
+
 axios.defaults.baseURL = process.env.BASE_URL;
 class App extends React.Component {
 	render() {
@@ -35,6 +37,7 @@ class App extends React.Component {
 									<Route path="/product" component={Product} />
 									<Route path="/order" component={Order} />
 									<Route path="/product-category" component={ProductCategory} />
+									<Route component={Error} />
 								</Switch>
 							</HLayout>
 						)}
