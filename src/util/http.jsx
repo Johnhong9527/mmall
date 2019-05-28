@@ -2,7 +2,7 @@
  * @Author: Johnhong9527
  * @Date:   2019-05-25 17:58:36
  * @Last Modified by:   Johnhong9527
- * @Last Modified time: 2019-05-27 10:09:39
+ * @Last Modified time: 2019-05-28 14:35:19
  */
 import axios from 'axios';
 import MUtil from 'util/mutil.jsx';
@@ -47,8 +47,8 @@ axios.interceptors.response.use(
     if (response.data.status === 0) {
       return response.data;
     } else if (response.data.status === 10) {
-      console.log(64);
-      // _mutil.doLogin();
+      // console.log(64);
+      _mutil.doLogin();
       return;
     } else {
       return Promise.reject(response.data.msg || response.data.data);
@@ -87,7 +87,7 @@ const request = function(url, params, config, method) {
     )
       .then(
         response => {
-          setTimeout(loading, 1300);
+          setTimeout(loading, 700);
           resolve(response);
         },
         err => {
