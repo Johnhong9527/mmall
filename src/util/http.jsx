@@ -2,7 +2,7 @@
  * @Author: Johnhong9527
  * @Date:   2019-05-25 17:58:36
  * @Last Modified by:   Johnhong9527
- * @Last Modified time: 2019-05-28 14:35:19
+ * @Last Modified time: 2019-05-31 12:04:07
  */
 import axios from 'axios';
 import MUtil from 'util/mutil.jsx';
@@ -65,12 +65,22 @@ axios.interceptors.response.use(
 );
 
 const request = function(url, params, config, method) {
-  const fd = new FormData();
-  if (params) {
+  let fd = null;
+  if (method === 'post' && params) {
+    fd = new FormData();
     Object.keys(params).forEach(key => {
-      fd.append(key, params[key]);
+      if (params[key] !== '') {
+        fd.append(key, params[key]);
+      }
+    });
+  } else if (method === 'get' && params) {
+    Object.keys(params).forEach((key, index) => {
+      if (params[key] !== '') {
+        url += `${index === 0 ? '?' : '&'}${key}=${params[key]}`;
+      }
     });
   }
+
   const loading = message.loading('请稍等！', 0);
   return new Promise((resolve, reject) => {
     axios[method](
@@ -87,7 +97,7 @@ const request = function(url, params, config, method) {
     )
       .then(
         response => {
-          setTimeout(loading, 700);
+          setTimeout(loading, 100);
           resolve(response);
         },
         err => {

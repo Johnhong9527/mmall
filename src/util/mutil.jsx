@@ -2,7 +2,7 @@
  * @Author: Johnhong9527
  * @Date:   2019-05-26 12:23:53
  * @Last Modified by:   Johnhong9527
- * @Last Modified time: 2019-05-26 16:25:00
+ * @Last Modified time: 2019-05-30 17:14:03
  */
 import { message } from 'antd';
 export default class MUtil {
@@ -16,6 +16,10 @@ export default class MUtil {
       reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)'),
       result = queryString.match(reg);
     return result ? decodeURIComponent(result[2]) : null;
+  }
+  // 成功提示
+  successTips(sucMsg) {
+    message.success(`${sucMsg || '请求成功了~'}`);
   }
   // 错误提示
   errorTips(errMsg) {

@@ -1,12 +1,18 @@
+/*
+* @Author: Johnhong9527
+* @Date:   2019-05-28 14:44:51
+* @Last Modified by:   Johnhong9527
+* @Last Modified time: 2019-05-30 15:41:39
+*/
 import React from 'react';
 import { Row, Col, Table } from 'antd';
 import User from 'api/user.jsx';
 import MUtil from 'util/mutil.jsx';
 import moment from 'moment';
+import PageTitle from 'component/page-title/index.jsx';
 import './index.scss';
 const _user = new User();
 const _mutil = new MUtil();
-console.log();
 
 export default class UserPage extends React.Component {
   constructor(props) {
@@ -51,7 +57,7 @@ export default class UserPage extends React.Component {
     this.getTableData = this.getTableData.bind(this);
   }
   componentWillMount() {
-    this.getTableData(2, 10);
+    this.getTableData(1, 10);
   }
   getTableData(num, size) {
     const request = {};
@@ -83,12 +89,14 @@ export default class UserPage extends React.Component {
   render() {
     return (
       <div className="user-wrapper">
+      <PageTitle title="用户列表"/>
         <Row>
           <Col span={24}>
             <Table
               bordered
               onChange={e => this.onTableChange(e)}
               rowKey="createTime"
+              size="small"
               pagination={this.state.pagination}
               dataSource={this.state.tableData}
               columns={this.state.columns}
