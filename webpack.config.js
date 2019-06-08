@@ -82,17 +82,31 @@ module.exports = {
       //   ]
       // },
       {
-        test: /\.scss$/,
+        test: /\.(scss|sass)$/,
         use: [
           {
             loader: 'style-loader'
           },
           {
-            loader: 'css-loader'
+            loader: 'css-loader',
+            options: {
+              importLoaders: 1,
+              sourceMap: true
+            }
           },
           {
-            loader: 'sass-loader'
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true
+            }
           },
+          {
+            loader: 'sass-loader',
+            options: {
+              implementation: require('dart-sass')
+            }
+          },
+
           {
             loader: 'sass-resources-loader',
             options: {

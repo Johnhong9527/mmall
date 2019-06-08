@@ -2,7 +2,7 @@
  * @Author: Johnhong9527
  * @Date:   2019-05-30 13:07:11
  * @Last Modified by:   Johnhong9527
- * @Last Modified time: 2019-06-01 10:40:20
+ * @Last Modified time: 2019-06-01 10:52:35
  */
 import React from 'react';
 import { Row, Col, Table, Button, Modal, Select, Input } from 'antd';
@@ -143,6 +143,10 @@ export default class ProductList extends React.Component {
   edit(id) {
     console.log(id);
   }
+  // 增加商品
+  addProduct() {
+    this.props.history.push('/product/save');
+  }
   // 改变商品状态，上架 / 下架
   onSetProductStatus(info) {
     let newStatus = info.status == 1 ? 2 : 1,
@@ -232,7 +236,7 @@ export default class ProductList extends React.Component {
                 />
               </Col>
               <Col span={2}>
-                <Button type="primary" onClick={e => this.setPagination(e)}>
+                <Button type="primary" onClick={e => this.addProduct(e)}>
                   增加商品
                 </Button>
               </Col>

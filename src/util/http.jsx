@@ -2,7 +2,7 @@
  * @Author: Johnhong9527
  * @Date:   2019-05-25 17:58:36
  * @Last Modified by:   Johnhong9527
- * @Last Modified time: 2019-05-31 12:04:07
+ * @Last Modified time: 2019-06-05 14:29:57
  */
 import axios from 'axios';
 import MUtil from 'util/mutil.jsx';
@@ -47,7 +47,6 @@ axios.interceptors.response.use(
     if (response.data.status === 0) {
       return response.data;
     } else if (response.data.status === 10) {
-      // console.log(64);
       _mutil.doLogin();
       return;
     } else {
