@@ -2,7 +2,7 @@
  * @Author: Johnhong9527
  * @Date:   2019-05-26 12:23:53
  * @Last Modified by:   Johnhong9527
- * @Last Modified time: 2019-05-30 17:14:03
+ * @Last Modified time: 2019-06-10 11:53:11
  */
 import { message } from 'antd';
 export default class MUtil {

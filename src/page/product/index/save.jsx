@@ -2,7 +2,7 @@
  * @Author: Johnhong9527
  * @Date:   2019-06-01 10:43:19
  * @Last Modified by:   Johnhong9527
- * @Last Modified time: 2019-06-05 16:35:32
+ * @Last Modified time: 2019-06-10 11:43:55
  */
 import React from 'react';
 import {
@@ -20,7 +20,8 @@ import {
   InputNumber,
   Upload,
   Modal,
-  Progress
+  Progress,
+  message
 } from 'antd';
 import PageTitle from 'component/page-title/index.jsx';
 import Product from 'api/product.jsx';
@@ -101,12 +102,42 @@ class ProductSavePage extends React.Component {
         this.state.filelist.forEach(item => {
           this.state.subImages.forEach((subItem, index) => {
             if (subItem.uid === item.uid) {
-              subImages += subItem.url + (this.state.subImages.length === index + 1 ? '' : ',');
+              subImages +=
+                'http://localhost:3333/public/' + subItem.url + (this.state.subImages.length === index + 1 ? '' : ',');
             }
           });
         });
-        console.log(subImages);
-        console.log(values);
+        // console.log(subImages);
+        // console.log(values);
+        _product
+          .saveProduct({
+            categoryId: values.categoryId[values.categoryId.length - 1],
+            name: values.name,
+            subtitle: values.subtitle,
+            subImages: subImages,
+            detail: values.content.toHTML(),
+            price: values.price,
+            stock: values.stock,
+            status: 1
+          })
+          .then(
+            res => {
+              console.log(res);
+              if (res.status === 0) {
+                message.success(res.data, 0.5).then(() => {
+                  message.loading('返回商品列表页', 1).then(() => {
+                    this.props.history.go(-1);
+                  });
+                });
+              }
+            },
+            err => {
+              message;
+            }
+          );
+        /*
+
+         */
       }
     });
   }
@@ -378,7 +409,7 @@ class ProductSavePage extends React.Component {
               </div>
             )}
           </FormItem>
-          <FormItem label="商品图片">
+          <FormItem label="商品图片" {...editFormItemLayout}>
             {getFieldDecorator('upload', {
               valuePropName: 'filelist',
               getValueFromEvent: this.normFile

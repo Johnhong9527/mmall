@@ -39,7 +39,17 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['react', 'env'],
+            presets: [
+              'react',
+              [
+                'env',
+                {
+                  targets: {
+                    browsers: ['>0.25%', 'not ie 11', 'not op_mini all']
+                  }
+                }
+              ]
+            ],
             cacheDirectory: true,
             cacheDirectory: tmpdir(),
             presets: [
@@ -50,6 +60,7 @@ module.exports = {
             plugins: [
               require.resolve('babel-plugin-add-module-exports'),
               require.resolve('babel-plugin-transform-decorators-legacy'),
+              require.resolve('babel-plugin-transform-runtime'),
               ['import', { libraryName: 'antd', libraryDirectory: 'es', style: 'css' }]
             ]
           }
@@ -63,24 +74,6 @@ module.exports = {
         test: /\.(eot|woff|woff2|ttf)/,
         loader: 'url-loader?limit=30000&name=fonts/[hash:8].[name].[ext]'
       },
-      // {
-      //   test: /\.css$/,
-      //   exclude: /node_module/,
-      //   use: [
-      //     {
-      //       loader: 'style-loader'
-      //     },
-      //     {
-      //       loader: 'css-loader',
-      //       options: {
-      //         modules: true,
-      //         importLoaders: 1,
-      //         sourceMap: true,
-      //         localIdentName: '[path][name]__[local]--[hash:base64:5]'
-      //       }
-      //     }
-      //   ]
-      // },
       {
         test: /\.(scss|sass)$/,
         use: [
@@ -119,23 +112,14 @@ module.exports = {
   },
   devServer: {
     port: 8080,
+    hot: true, //设置这里
+    host: '0.0.0.0',
     historyApiFallback: true,
     before(app) {
       app.get('/api/statistic', function(req, res) {
         res.json(statistic);
       });
     }
-    // proxy: {
-    //   '/manage': {
-    //     // target: 'https://bird.ioliu.cn/v1?url=http://adminv2.happymmall.com/manage/',
-    //     target: 'http://adminv2.happymmall.com',
-    //     changeOrigin: true
-    //     // target: 'https://www.baidu.com',
-    //     // pathRewrite: { '^/manage': '' },
-    //     // secure: false
-    //   },
-    //   '/user/logout.do': { target: 'http://adminv2.happymmall.com', changeOrigin: true }
-    // }
   },
   plugins: [
     htmlPlugin,

@@ -2,47 +2,24 @@
 * @Author: Johnhong9527
 * @Date:   2019-05-30 15:13:46
 * @Last Modified by:   Johnhong9527
-* @Last Modified time: 2019-06-08 11:59:06
+* @Last Modified time: 2019-06-11 10:14:46
 */
 
 .product-wrapper {
-  padding: 20px 30px;
+  padding: 15px 30px;
   background-color: #fff;
   overflow: scroll;
   height: $page-height;
+}
+.product-detail-wrapper {
+  padding: 15px 30px;
 }
 .product-save-wrapper {
   padding: 15px 30px;
   background-color: #fff;
   overflow-y: scroll;
   height: $page-height;
-  .unit-wrapper {
-    width: 114px;
-    .unit {
-      display: inline-block;
-      border: 1px solid #d9d9d9;
-      line-height: 1.5;
-      padding: 4px;
-      padding-top: 5px;
-      background-color: #d9d9d9;
-      position: relative;
-      left: -3px;
-      border-top-right-radius: 5px;
-      border-bottom-right-radius: 5px;
-      top: 1px;
-      z-index: 10;
-      transition: all 0.3s;
-      box-sizing: border-box;
-    }
-    /*&:hover {
-      .unit {
-        border-top-color: #40a9ff;
-        border-right-color: #40a9ff;
-        border-bottom-color: #40a9ff;
-        box-shadow: 1px 0px 1px 0px #40a9ff;
-      }
-    }*/
-  }
+  
   .my-editor {
     border: 1px solid #000;
   }

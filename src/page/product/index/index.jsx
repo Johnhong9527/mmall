@@ -2,7 +2,7 @@
  * @Author: Johnhong9527
  * @Date:   2019-05-30 13:07:11
  * @Last Modified by:   Johnhong9527
- * @Last Modified time: 2019-06-01 10:52:35
+ * @Last Modified time: 2019-06-10 11:19:35
  */
 import React from 'react';
 import { Row, Col, Table, Button, Modal, Select, Input } from 'antd';
@@ -137,7 +137,7 @@ export default class ProductList extends React.Component {
   }
   // 查看商品详情
   view(id) {
-    console.log(id);
+    this.props.history.push('/product/detail/' + id);
   }
   // 编辑商品
   edit(id) {
