@@ -8,7 +8,7 @@ import { post, get } from 'util/http.jsx';
 export default class User {
   // 用户登录
   login(loginInfo) {
-    return post('/manage/user/login.do', loginInfo);
+    return post('/manage/user/login', loginInfo);
   }
   // 用户列表  /manage/user/list.do
   list(request) {
