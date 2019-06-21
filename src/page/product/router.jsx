@@ -14,6 +14,7 @@ import ProductDetailPage from 'page/product/index/detail.jsx';
 import WrappedRegistrationForm from 'page/product/index/test.jsx';
 import HUpload from 'page/product/index/test2.jsx';
 import ProductCategory from 'page/product/category/index.jsx';
+import CategoryAdd from 'page/product/category/add.jsx';
 export default class ProductRouter extends React.Component {
   render() {
     return (
@@ -24,6 +25,7 @@ export default class ProductRouter extends React.Component {
         <Route path="/product/test2" component={HUpload} />
         <Route path="/product/detail/:pid" component={ProductDetailPage} />
         <Route path="/product-category/index/:categoryId?" component={ProductCategory} />
+        <Route path="/product-category/add/:categoryId?" component={CategoryAdd} />
         <Redirect exact from="/product" to="/product/index" />
         <Redirect exact from="/product-category" to="/product-category/index" />
       </Switch>

@@ -183,6 +183,14 @@ export default class ProductCategory extends React.Component {
         }
       );
   }
+  add() {
+    this.props.history.push(
+      "/product-category/add" +
+        (this.state.parentCategoryId > 0
+          ? "/" + this.state.parentCategoryId
+          : "")
+    );
+  }
 
   render() {
     const { list, parentCategoryId } = this.state;
@@ -259,7 +267,7 @@ export default class ProductCategory extends React.Component {
         <PageTitle title="品类管理" />
         <Row type="flex" justify="end">
           <Col>
-            <Button type="primary">
+            <Button type="primary" onClick={e => this.add(e)}>
               添加子类
             </Button>
           </Col>

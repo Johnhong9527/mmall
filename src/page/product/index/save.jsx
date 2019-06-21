@@ -4,7 +4,7 @@
  * @Last Modified by:   Johnhong9527
  * @Last Modified time: 2019-06-10 11:43:55
  */
-import React from "react";
+import React from 'react';
 import {
   Form,
   Input,
@@ -22,13 +22,13 @@ import {
   Modal,
   Progress,
   message
-} from "antd";
-import PageTitle from "component/page-title/index.jsx";
-import Product from "api/product.jsx";
-import MUtil from "util/mutil.jsx";
-import BraftEditor from "braft-editor";
-import "braft-editor/dist/index.css";
-import "./index.scss";
+} from 'antd';
+import PageTitle from 'component/page-title/index.jsx';
+import Product from 'api/product.jsx';
+import MUtil from 'util/mutil.jsx';
+import BraftEditor from 'braft-editor';
+import 'braft-editor/dist/index.css';
+import './index.scss';
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
@@ -40,10 +40,10 @@ class ProductSavePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: "save",
+      name: 'save',
       categoryList: [],
       previewVisible: false,
-      previewImage: "",
+      previewImage: '',
       filelist: [],
       subImages: [],
       // 富文本编辑器
@@ -81,7 +81,7 @@ class ProductSavePage extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    let subImages = "";
+    let subImages = '';
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         // console.log('Received values of form: ', values);
@@ -103,9 +103,7 @@ class ProductSavePage extends React.Component {
           this.state.subImages.forEach((subItem, index) => {
             if (subItem.uid === item.uid) {
               subImages +=
-                "http://localhost:3333/public/" +
-                subItem.url +
-                (this.state.subImages.length === index + 1 ? "" : ",");
+                'http://localhost:3333/public/' + subItem.url + (this.state.subImages.length === index + 1 ? '' : ',');
             }
           });
         });
@@ -127,7 +125,7 @@ class ProductSavePage extends React.Component {
               console.log(res);
               if (res.status === 0) {
                 message.success(res.data, 0.5).then(() => {
-                  message.loading("返回商品列表页", 1).then(() => {
+                  message.loading('返回商品列表页', 1).then(() => {
                     this.props.history.go(-1);
                   });
                 });
@@ -195,14 +193,7 @@ class ProductSavePage extends React.Component {
         },
         {
           onUploadProgress: ({ total, loaded }) => {
-            onProgress(
-              {
-                percent: Number.parseInt(
-                  Math.round((loaded / total) * 100).toFixed(2)
-                )
-              },
-              file
-            );
+            onProgress({ percent: Number.parseInt(Math.round((loaded / total) * 100).toFixed(2)) }, file);
           }
         }
       )
@@ -246,7 +237,7 @@ class ProductSavePage extends React.Component {
     window.previewWindow.document.close();
   }
   buildPreviewHtml() {
-    let dom = "";
+    let dom = '';
     this.props.form.validateFieldsAndScroll((err, values) => {
       dom = `
       <!Doctype html>
@@ -307,12 +298,7 @@ class ProductSavePage extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const {
-      autoCompleteResult,
-      previewVisible,
-      previewImage,
-      filelist
-    } = this.state;
+    const { autoCompleteResult, previewVisible, previewImage, filelist } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -349,9 +335,9 @@ class ProductSavePage extends React.Component {
     // 富文本
     const extendControls = [
       {
-        key: "custom-button",
-        type: "button",
-        text: "预览",
+        key: 'custom-button',
+        type: 'button',
+        text: '预览',
         onClick: this.preview
       }
     ];
@@ -360,38 +346,36 @@ class ProductSavePage extends React.Component {
         <PageTitle title="商品管理 -- 添加商品" />
         <Form {...formItemLayout} onSubmit={e => this.handleSubmit(e)}>
           <FormItem label="商品名称">
-            {getFieldDecorator("name", {
+            {getFieldDecorator('name', {
               rules: [
                 {
                   required: true,
-                  message: "请输入商品名称!"
+                  message: '请输入商品名称!'
                 },
                 {
-                  type: "string",
-                  message: "请输入标准的字符串!"
+                  type: 'string',
+                  message: '请输入标准的字符串!'
                 }
               ]
             })(<Input />)}
           </FormItem>
           <FormItem label="商品描述">
-            {getFieldDecorator("subtitle", {
+            {getFieldDecorator('subtitle', {
               rules: [
                 {
                   required: true,
-                  message: "请输入商品描述!"
+                  message: '请输入商品描述!'
                 },
                 {
-                  type: "string",
-                  message: "请输入标准的字符串!"
+                  type: 'string',
+                  message: '请输入标准的字符串!'
                 }
               ]
             })(<Input />)}
           </FormItem>
           <FormItem label="所属分类">
-            {getFieldDecorator("categoryId", {
-              rules: [
-                { type: "array", required: true, message: "情选择商品分类" }
-              ]
+            {getFieldDecorator('categoryId', {
+              rules: [{ type: 'array', required: true, message: '情选择商品分类' }]
             })(
               <Cascader
                 options={this.state.categoryList}
@@ -399,15 +383,15 @@ class ProductSavePage extends React.Component {
                 // onChange={e => this.onSelectChange(e)}
                 loadData={this.loadData}
                 onChange={e => this.onCascaderChange(e)}
-                fieldNames={{ label: "name", value: "id" }}
+                fieldNames={{ label: 'name', value: 'id' }}
                 changeOnSelect
                 notFoundContent
               />
             )}
           </FormItem>
           <FormItem label="商品价格">
-            {getFieldDecorator("price", {
-              rules: [{ required: true, message: "请输入商品价格！" }]
+            {getFieldDecorator('price', {
+              rules: [{ required: true, message: '请输入商品价格！' }]
             })(
               <div className="unit-wrapper">
                 <InputNumber min={0} placeholder="价格" type="number" />
@@ -416,8 +400,8 @@ class ProductSavePage extends React.Component {
             )}
           </FormItem>
           <FormItem label="商品库存">
-            {getFieldDecorator("stock", {
-              rules: [{ required: true, message: "请输入商品库存！" }]
+            {getFieldDecorator('stock', {
+              rules: [{ required: true, message: '请输入商品库存！' }]
             })(
               <div className="unit-wrapper">
                 <InputNumber min={0} placeholder="库存" type="number" />
@@ -426,8 +410,8 @@ class ProductSavePage extends React.Component {
             )}
           </FormItem>
           <FormItem label="商品图片" {...editFormItemLayout}>
-            {getFieldDecorator("upload", {
-              valuePropName: "filelist",
+            {getFieldDecorator('upload', {
+              valuePropName: 'filelist',
               getValueFromEvent: this.normFile
             })(
               <div>
@@ -446,42 +430,28 @@ class ProductSavePage extends React.Component {
                     <div className="ant-upload-text">上传图片</div>
                   </div>
                 </Upload>
-                <Modal
-                  visible={previewVisible}
-                  footer={null}
-                  onCancel={e => this.modalHandleCancel(e)}
-                >
-                  <img
-                    alt="example"
-                    style={{ width: "100%" }}
-                    src={previewImage}
-                  />
+                <Modal visible={previewVisible} footer={null} onCancel={e => this.modalHandleCancel(e)}>
+                  <img alt="example" style={{ width: '100%' }} src={previewImage} />
                 </Modal>
               </div>
             )}
           </FormItem>
           <FormItem {...editFormItemLayout} label="商品详情">
-            {getFieldDecorator("content", {
-              validateTrigger: "onBlur",
+            {getFieldDecorator('content', {
+              validateTrigger: 'onBlur',
               rules: [
                 {
                   required: false,
                   validator: (_, value, callback) => {
                     if (value === undefined) {
-                      callback("请输入正文内容");
+                      callback('请输入正文内容');
                     } else {
                       callback();
                     }
                   }
                 }
               ]
-            })(
-              <BraftEditor
-                extendControls={extendControls}
-                className="my-editor"
-                placeholder="请输入正文内容"
-              />
-            )}
+            })(<BraftEditor extendControls={extendControls} className="my-editor" placeholder="请输入正文内容" />)}
           </FormItem>
           <FormItem {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">
@@ -494,5 +464,5 @@ class ProductSavePage extends React.Component {
   }
 }
 
-const ProductSave = Form.create({ name: "product-save" })(ProductSavePage);
+const ProductSave = Form.create({ name: 'product-save' })(ProductSavePage);
 export default ProductSave;
