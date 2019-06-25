@@ -11,9 +11,10 @@ export default class Product {
   // 获取商品列表
   list(params) {
     if (params.listType === 'search') {
-      return get('/manage/product/search.do', params);
+      return post('/manage/product/search', params);
     }
-    return post('/manage/product/list.do', params);
+    // return post('/manage/product/list.do', params);
+    return post('/manage/product/list', params);
   }
 
   // 变更商品销售状态
@@ -24,12 +25,12 @@ export default class Product {
   // 上传图片
   uploadImage(params, config) {
     // return post('/manage/product/upload.do', params, config);
-    return post('http://localhost:3333/upload', params, config);
+    return post('/manage/product/upload', params, config);
   }
 
   // 增加商品
   saveProduct(params) {
-    return post('/manage/product/save.do', params);
+    return post('/manage/product/save', params);
   }
   // 商品详情
   getProduct(productId) {
@@ -44,12 +45,15 @@ export default class Product {
 
   // 根据父品类id获取品类列表
   getCategoryList(parentCategoryId) {
-    if (parentCategoryId) {
-      return post('/manage/category/get_category.do', {
+    return get('/manage/category/get_category', {
+      categoryId: parentCategoryId
+    });
+    /*if (parentCategoryId) {
+      return post('/manage/category/get_category', {
         categoryId: parentCategoryId
       });
     } else {
       return new Promise(resolve => resolve(get_category));
-    }
+    }*/
   }
 }
