@@ -19,7 +19,7 @@ export default class Product {
 
   // 变更商品销售状态
   setProductStatus(params) {
-    return get('/manage/product/set_sale_status.do', params);
+    return post('/manage/product/set_sale_status', params);
   }
 
   // 上传图片
@@ -34,7 +34,7 @@ export default class Product {
   }
   // 商品详情
   getProduct(productId) {
-    return get('/manage/product/detail.do', {
+    return get('/manage/product/detail', {
       productId: productId || 0
     });
   }
