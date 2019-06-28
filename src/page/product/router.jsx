@@ -11,8 +11,6 @@ import { BrowserRouter as Router, Switch, Redirect, Route, Link } from 'react-ro
 import ProductList from 'page/product/index/index.jsx';
 import ProductSave from 'page/product/index/save.jsx';
 import ProductDetailPage from 'page/product/index/detail.jsx';
-import WrappedRegistrationForm from 'page/product/index/test.jsx';
-import HUpload from 'page/product/index/test2.jsx';
 import ProductCategory from 'page/product/category/index.jsx';
 import CategoryAdd from 'page/product/category/add.jsx';
 export default class ProductRouter extends React.Component {
@@ -20,9 +18,7 @@ export default class ProductRouter extends React.Component {
     return (
       <Switch>
         <Route exact path="/product/index" component={ProductList} />
-        <Route path="/product/save" component={ProductSave} />
-        <Route path="/product/test" component={WrappedRegistrationForm} />
-        <Route path="/product/test2" component={HUpload} />
+        <Route path="/product/save/:pid?" component={ProductSave} />
         <Route path="/product/detail/:pid" component={ProductDetailPage} />
         <Route path="/product-category/index/:categoryId?" component={ProductCategory} />
         <Route path="/product-category/add/:categoryId?" component={CategoryAdd} />

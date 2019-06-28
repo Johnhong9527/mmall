@@ -1,0 +1,13 @@
+.category-selector-wrapper {
+  display: flex;
+  //padding-right: 10px;
+  & > div {
+    max-width: 200px;
+    &:nth-child(1) {
+      margin-right: 10px;
+    }
+    &:nth-child(2) {
+      margin-left: 10px;
+    }
+  }
+}

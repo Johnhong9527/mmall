@@ -19,8 +19,13 @@
   background-color: #fff;
   overflow-y: scroll;
   height: $page-height;
-  
+
   .my-editor {
     border: 1px solid #000;
   }
+}
+.braft-editor {
+  border: 1px solid #e3e3e3;
+  padding: 15px;
+
 }

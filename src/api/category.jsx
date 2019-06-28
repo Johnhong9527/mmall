@@ -1,9 +1,11 @@
-import {post, get} from "util/http.jsx";
+import { get } from "util/http.jsx";
 
 export default class Category {
   // 获取品类
   getCategory(categoryId = 0) {
-    return get("/manage/category/get_category?categoryId=" + categoryId);
+    return get("/manage/category/get_category", {
+      categoryId: categoryId
+    });
   }
 
   // 添加品类

@@ -129,9 +129,9 @@ export default class ProductList extends React.Component {
     _product.list(request).then(
       res => {
         this.setState({
-          tableData: res.data.list,
+          tableData: res.list,
           pagination: {
-            total: res.data.total,
+            total: res.total,
             current: this.state.current, // 当前页数
             pageSize: this.state.pageSize // 当页数据条数
           },
@@ -153,7 +153,7 @@ export default class ProductList extends React.Component {
   }
   // 编辑商品
   edit(id) {
-    console.log(id);
+    this.props.history.push("/product/save/" + id);
   }
   // 增加商品
   addProduct() {

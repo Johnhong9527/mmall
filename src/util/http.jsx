@@ -4,9 +4,9 @@
  * @Last Modified by:   Johnhong9527
  * @Last Modified time: 2019-06-05 14:29:57
  */
-import axios from 'axios';
-import MUtil from 'util/mutil.jsx';
-import { message } from 'antd';
+import axios from "axios";
+import MUtil from "util/mutil.jsx";
+import { message } from "antd";
 const _mutil = new MUtil();
 // 请求列表
 const requestList = [];
@@ -26,7 +26,7 @@ axios.interceptors.request.use(
     });
 
     if (requestList.includes(request)) {
-      sources[request]('取消重复请求');
+      sources[request]("取消重复请求");
     } else {
       requestList.push(request);
     }
@@ -39,13 +39,15 @@ axios.interceptors.request.use(
 
 axios.interceptors.response.use(
   function(response) {
-    const request = JSON.stringify(response.config.url) + JSON.stringify(response.config.data);
+    const request =
+      JSON.stringify(response.config.url) +
+      JSON.stringify(response.config.data);
     requestList.splice(requestList.findIndex(item => item === request), 1);
     if (requestList.length === 0) {
       // 请求结束，取消loading
     }
     if (response.data.status === 0) {
-      return response.data;
+      return response.data.msg || response.data.data;
     } else if (response.data.status === 10) {
       _mutil.doLogin();
       return;
@@ -56,7 +58,7 @@ axios.interceptors.response.use(
   function(error) {
     if (axios.isCancel(error)) {
       requestList.length = 0;
-      throw new axios.Cancel('cancel request');
+      throw new axios.Cancel("cancel request");
     } else {
     }
     return Promise.reject(error);
@@ -65,22 +67,22 @@ axios.interceptors.response.use(
 
 const request = function(url, params, config, method) {
   let fd = null;
-  if (method === 'post' && params) {
+  if (method === "post" && params) {
     fd = new FormData();
     Object.keys(params).forEach(key => {
-      if (params[key] !== '') {
+      if (params[key] !== "") {
         fd.append(key, params[key]);
       }
     });
-  } else if (method === 'get' && params) {
+  } else if (method === "get" && params) {
     Object.keys(params).forEach((key, index) => {
-      if (params[key] !== '') {
-        url += `${index === 0 ? '?' : '&'}${key}=${params[key]}`;
+      if (params[key] !== "") {
+        url += `${index === 0 ? "?" : "&"}${key}=${params[key]}`;
       }
     });
   }
 
-  const loading = message.loading('请稍等！', 0);
+  const loading = message.loading("请稍等！", 0);
   return new Promise((resolve, reject) => {
     axios[method](
       url,
@@ -88,7 +90,7 @@ const request = function(url, params, config, method) {
       Object.assign(
         {
           headers: {
-            'Content-Type': 'multipart/form-data'
+            "Content-Type": "multipart/form-data"
           }
         },
         config
@@ -115,11 +117,11 @@ const request = function(url, params, config, method) {
 };
 
 const post = (url, params, config = {}) => {
-  return request(url, params, config, 'post');
+  return request(url, params, config, "post");
 };
 
 const get = (url, params, config = {}) => {
-  return request(url, params, config, 'get');
+  return request(url, params, config, "get");
 };
 
 export { sources, post, get };

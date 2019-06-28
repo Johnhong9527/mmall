@@ -1,37 +1,14 @@
-/*
- * @Author: Johnhong9527
- * @Date:   2019-06-01 10:43:19
- * @Last Modified by:   Johnhong9527
- * @Last Modified time: 2019-06-10 11:43:55
- */
 import React from "react";
-import {
-  Form,
-  Input,
-  Tooltip,
-  Icon,
-  Cascader,
-  Select,
-  Row,
-  Col,
-  Checkbox,
-  Button,
-  AutoComplete,
-  InputNumber,
-  Upload,
-  Modal,
-  Progress,
-  message
-} from "antd";
+import { Form, Input, Icon, Button, Upload, Modal, message } from "antd";
 import PageTitle from "component/page-title/index.jsx";
+import HNumber from "component/h-number/index.jsx";
+import CategorySelector from "component/category-selector/index.jsx";
 import Product from "api/product.jsx";
 import MUtil from "util/mutil.jsx";
 import BraftEditor from "braft-editor";
 import "braft-editor/dist/index.css";
 import "./index.scss";
 
-const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
 const FormItem = Form.Item;
 const _product = new Product();
 const _mutil = new MUtil();
@@ -40,43 +17,61 @@ class ProductSavePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      pid: this.props.match.params.pid ? this.props.match.params.pid : "",
+      parentCategoryId: "",
+      categoryId: "",
       name: "save",
-      categoryList: [],
       previewVisible: false,
       previewImage: "",
-      filelist: [],
+      0: [],
       subImages: [],
       // 富文本编辑器
       editorState: BraftEditor.createEditorState(null)
     };
-    this.getCategoryList = this.getCategoryList.bind(this);
     this.preview = this.preview.bind(this);
-    // this.loadData = this.loadData.bind(this);
   }
 
   componentWillMount() {
-    this.getCategoryList(0);
+    this.loadProduct();
   }
+  loadProduct() {
+    if (this.state.pid !== "") {
+      _product.getProduct(this.state.pid).then(res => {
+        const getProduct = res;
 
-  getCategoryList(parentCategoryId) {
-    _product.getCategoryList(parentCategoryId).then(
-      res => {
-        if (parentCategoryId === 0) {
-          // res.data = res.data.slice(1150, 1200);
-          // res.data = res.data.slice(0, 100);
-          res.data.map(key => {
-            key.isLeaf = false;
-            return key;
-          });
-        }
-        this.setState({
-          categoryList: res.data
+        //
+        const subImages =
+          getProduct.subImages !== "" ? getProduct.subImages.split(",") : "";
+        const subImagesArr =
+          subImages !== ""
+            ? subImages.map((item, index) => {
+                return {
+                  uid: index,
+                  name: getProduct.imageHost + item,
+                  status: "done",
+                  url: getProduct.imageHost + item,
+                  oldUrl: item,
+                  thumbUrl: getProduct.imageHost + item
+                };
+              })
+            : "";
+        this.props.form.setFieldsValue({
+          name: getProduct.name,
+          subtitle: getProduct.subtitle,
+          category: [getProduct.parentCategoryId, getProduct.categoryId],
+          price: getProduct.price,
+          stock: getProduct.stock,
+          upload: subImagesArr,
+          content: BraftEditor.createEditorState(getProduct.detail)
         });
-      },
-      errMsg => {
-        _mutil.errorTips(errMsg);
-      }
-    );
+        this.setState({
+          // detail: getProduct.detail,
+          filelist: [...subImagesArr],
+          parentCategoryId: getProduct.parentCategoryId,
+          categoryId: getProduct.categoryId
+        });
+      });
+    }
   }
 
   handleSubmit(e) {
@@ -84,34 +79,26 @@ class ProductSavePage extends React.Component {
     let subImages = "";
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        // console.log('Received values of form: ', values);
-        // console.log(this.state.filelist);
-        // console.log(this.state.subImages);
-        // console.log(values.content.toRAW());
-        // console.log(values.content.toHTML());
-        /*this.state.fileList.forEach(key => {
-          this.state.subImages.forEach(subKey => {
-            if (key.uid === subKey.uid) {
-              subImages += `${subKey.url},`;
-            }
-          });
-        });
-        console.log(subImages);
-        subImages = subImages.split(subImages.length - 1, 1);
-        console.log(subImages);*/
         this.state.filelist.forEach(item => {
+          if (item.oldUrl) {
+            subImages += item.oldUrl + ",";
+          }
           this.state.subImages.forEach((subItem, index) => {
             if (subItem.uid === item.uid) {
               subImages +=
-                // 'http://localhost:3333/public/' + subItem.url + (this.state.subImages.length === index + 1 ? '' : ',');
                 subItem.url +
                 (this.state.subImages.length === index + 1 ? "" : ",");
             }
           });
         });
+        // 去除字符串末尾逗号
+        if (subImages[subImages.length - 1] === ",") {
+          subImages = subImages.substring(0, subImages.length - 1);
+        }
         _product
           .saveProduct({
-            categoryId: values.categoryId[values.categoryId.length - 1],
+            id: this.state.pid,
+            categoryId: values.category[values.category.length - 1],
             name: values.name,
             subtitle: values.subtitle,
             subImages: subImages,
@@ -122,52 +109,16 @@ class ProductSavePage extends React.Component {
           })
           .then(
             res => {
-              if (res.status === 0) {
-                console.log(res);
-                message.success(res.msg, 0.5).then(() => {
-                  message.loading("返回商品列表页", 1).then(() => {
-                    this.props.history.go(-1);
-                  });
+              message.success(res, 0.5).then(() => {
+                message.loading("返回商品列表页", 1).then(() => {
+                  this.props.history.go(-1);
                 });
-              }
+              });
             },
             err => {
               console.log(err);
             }
           );
-        /*
-
-         */
-      }
-    });
-  }
-
-  onSelectChange(data) {
-    console.log(data);
-  }
-
-  loadData = selectedOptions => {
-    const targetOption = selectedOptions[selectedOptions.length - 1];
-    targetOption.loading = true;
-    _product.getCategoryList(targetOption.id).then(
-      res => {
-        targetOption.loading = false;
-        if (res.data.length > 0) {
-          targetOption.children = res.data;
-        }
-        this.setState({
-          options: [...this.state.categoryList]
-        });
-      },
-      errMsg => {
-        _mutil.errorTips(errMsg);
-      }
-    );
-  };
-  onCascaderChange(value, selectedOptions) {
-    console.log(value, selectedOptions);
-    value.forEach(item => {
-      if (item !== undefined) {
       }
     });
   }
@@ -205,9 +156,9 @@ class ProductSavePage extends React.Component {
         }
       )
       .then(res => {
-        console.log(res.data.uri);
+        console.log(res.uri);
         const url = {
-          url: res.data.uri,
+          url: res.uri,
           uid: file.uid
         };
         if (this.state.subImages.indexOf(url) < 0) {
@@ -309,7 +260,10 @@ class ProductSavePage extends React.Component {
       autoCompleteResult,
       previewVisible,
       previewImage,
-      filelist
+      filelist,
+      categoryId,
+      parentCategoryId,
+      pid
     } = this.state;
 
     const formItemLayout = {
@@ -355,7 +309,9 @@ class ProductSavePage extends React.Component {
     ];
     return (
       <div className="product-save-wrapper">
-        <PageTitle title="商品管理 -- 添加商品" />
+        <PageTitle
+          title={pid > 0 ? "商品管理 -- 修改商品" : "商品管理 -- 添加商品"}
+        />
         <Form {...formItemLayout} onSubmit={e => this.handleSubmit(e)}>
           <FormItem label="商品名称">
             {getFieldDecorator("name", {
@@ -386,20 +342,14 @@ class ProductSavePage extends React.Component {
             })(<Input />)}
           </FormItem>
           <FormItem label="所属分类">
-            {getFieldDecorator("categoryId", {
+            {getFieldDecorator("category", {
               rules: [
-                { type: "array", required: true, message: "情选择商品分类" }
+                { type: "array", required: true, message: "请选择商品分类" }
               ]
             })(
-              <Cascader
-                options={this.state.categoryList}
-                ref={child => (this.child = child)}
-                // onChange={e => this.onSelectChange(e)}
-                loadData={this.loadData}
-                onChange={e => this.onCascaderChange(e)}
-                fieldNames={{ label: "name", value: "id" }}
-                changeOnSelect
-                notFoundContent
+              <CategorySelector
+                categoryId={categoryId}
+                parentCategoryId={parentCategoryId}
               />
             )}
           </FormItem>
@@ -407,20 +357,26 @@ class ProductSavePage extends React.Component {
             {getFieldDecorator("price", {
               rules: [{ required: true, message: "请输入商品价格！" }]
             })(
-              <div className="unit-wrapper">
-                <InputNumber min={0} placeholder="价格" type="number" />
-                <span className="unit">元</span>
-              </div>
+              <HNumber
+                disabled={false}
+                min={0}
+                placeholder="价格"
+                type="number"
+                tips="元"
+              />
             )}
           </FormItem>
           <FormItem label="商品库存">
             {getFieldDecorator("stock", {
               rules: [{ required: true, message: "请输入商品库存！" }]
             })(
-              <div className="unit-wrapper">
-                <InputNumber min={0} placeholder="库存" type="number" />
-                <span className="unit">件</span>
-              </div>
+              <HNumber
+                disabled={false}
+                min={0}
+                placeholder="库存"
+                type="number"
+                tips="件"
+              />
             )}
           </FormItem>
           <FormItem label="商品图片" {...editFormItemLayout}>
@@ -431,15 +387,13 @@ class ProductSavePage extends React.Component {
               <div>
                 <Upload
                   name="subImages"
-                  filelist={filelist}
                   onPreview={e => this.upHandlePreview(e)}
-                  onChange={e => this.upHandleChange(e)}
+                  fileList={filelist}
                   listType="picture-card"
+                  onChange={e => this.upHandleChange(e)}
                   customRequest={e => this.upCustomRequest(e)}
-                  // action="http://adminv2.happymmall.com/manage/product/upload.do"
                 >
                   <div>
-                    {/*<Progress percent={30} />*/}
                     <Icon type="plus" />
                     <div className="ant-upload-text">上传图片</div>
                   </div>
@@ -482,7 +436,7 @@ class ProductSavePage extends React.Component {
             )}
           </FormItem>
           <FormItem {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">
+            <Button size={"large"} type="primary" htmlType="submit">
               提交
             </Button>
           </FormItem>

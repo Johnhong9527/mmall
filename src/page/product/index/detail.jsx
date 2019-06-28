@@ -47,7 +47,7 @@ class ProductDetail extends React.Component {
 
   loadProduct() {
     _product.getProduct(this.props.match.params.pid).then(res => {
-      const getProduct = res.data;
+      const getProduct = res;
       this.props.form.setFieldsValue({
         name: getProduct.name,
         subtitle: getProduct.subtitle,
@@ -84,7 +84,7 @@ class ProductDetail extends React.Component {
     try {
       let category;
       category = await _product.getCategoryList(0);
-      category.data.forEach(key => {
+      category.forEach(key => {
         if (key.id === product.parentCategoryId) {
           this.setState(
             {
@@ -111,7 +111,7 @@ class ProductDetail extends React.Component {
     try {
       let category;
       category = await _product.getCategoryList(parentCategoryId);
-      category.data.forEach(key => {
+      category.forEach(key => {
         if (key.id === categoryId) {
           this.setState({
             secondCategory: key
@@ -170,7 +170,7 @@ class ProductDetail extends React.Component {
     };
     return (
       <div className="product-save-wrapper">
-        <PageTitle title="商品管理 -- 添加商品" />
+        <PageTitle title="商品详情" />
         <Form {...formItemLayout} onSubmit={e => this.handleSubmit(e)}>
           <FormItem label="商品名称">
             {getFieldDecorator("name", {
@@ -267,6 +267,7 @@ class ProductDetail extends React.Component {
           <FormItem {...editFormItemLayout} label="商品详情">
             {this.state.detail !== "" ? (
               <div
+                className="braft-editor"
                 dangerouslySetInnerHTML={{
                   __html: BraftEditor.createEditorState(
                     this.state.detail

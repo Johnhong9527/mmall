@@ -27,9 +27,9 @@ export default class Home extends React.Component {
     _statistic.getHomeCount().then(
       res => {
         this.setState({
-          userCount: res.data.userCount,
-          productCount: res.data.productCount,
-          orderCount: res.data.orderCount
+          userCount: res.userCount,
+          productCount: res.productCount,
+          orderCount: res.orderCount
         });
       },
       errMsg => {
