@@ -2,16 +2,16 @@
  * @Author: Johnhong9527
  * @Date:   2019-05-30 13:07:11
  * @Last Modified by:   Johnhong9527
- * @Last Modified time: 2019-06-10 11:19:35
+ * @Last Modified time: 2019-07-09 11:03:01
  */
-import React from "react";
-import { Row, Col, Table, Button, Modal, Select, Input } from "antd";
-import Product from "api/product.jsx";
-import MUtil from "util/mutil.jsx";
-import moment from "moment";
-import PageTitle from "component/page-title/index.jsx";
+import React from 'react';
+import { Row, Col, Table, Button, Modal, Select, Input } from 'antd';
+import Product from 'api/product.jsx';
+import MUtil from 'util/mutil.jsx';
+import moment from 'moment';
+import PageTitle from 'component/page-title/index.jsx';
 
-import "./index.scss";
+import './index.scss';
 const _product = new Product();
 const _mutil = new MUtil();
 const confirm = Modal.confirm;
@@ -31,19 +31,19 @@ export default class ProductList extends React.Component {
         pageSize: 5, // 当页数据条数
         showSizeChanger: true,
         showQuickJumper: true,
-        pageSizeOptions: ["5", "10"]
+        pageSizeOptions: ['5', '10']
       },
       columns: [
         {
-          title: "商品ID",
-          dataIndex: "id",
-          key: "id",
-          align: "center"
+          title: '商品ID',
+          dataIndex: 'id',
+          key: 'id',
+          align: 'center'
         },
         {
-          title: "商品信息",
-          dataIndex: "name",
-          key: "name",
+          title: '商品信息',
+          dataIndex: 'name',
+          key: 'name',
           render: (value, row, index) => {
             return (
               <div>
@@ -54,45 +54,37 @@ export default class ProductList extends React.Component {
           }
         },
         {
-          title: "价格",
-          dataIndex: "price",
-          key: "price",
-          align: "center"
+          title: '价格',
+          dataIndex: 'price',
+          key: 'price',
+          align: 'center'
         },
         {
-          title: "状态",
-          dataIndex: "status",
-          key: "status",
-          align: "center",
+          title: '状态',
+          dataIndex: 'status',
+          key: 'status',
+          align: 'center',
           render: (value, row, index) => {
             return (
               <span>
-                <span>{value === 1 ? "在售" : "已下架"}</span>&nbsp;
-                <Button
-                  className="btn-warning"
-                  size="small"
-                  onClick={e => this.onSetProductStatus(row)}
-                >
-                  {value === 1 ? "下架" : "上架"}
+                <span>{value === 1 ? '在售' : '已下架'}</span>&nbsp;
+                <Button className="btn-warning" size="small" onClick={e => this.onSetProductStatus(row)}>
+                  {value === 1 ? '下架' : '上架'}
                 </Button>
               </span>
             );
           }
         },
         {
-          title: "操作",
-          dataIndex: "createTime",
-          key: "createTime",
-          align: "center",
+          title: '操作',
+          dataIndex: 'createTime',
+          key: 'createTime',
+          align: 'center',
           width: 150,
           render: (value, row, index) => {
             return (
               <span>
-                <Button
-                  type="primary"
-                  size="small"
-                  onClick={e => this.view(row.id)}
-                >
+                <Button type="primary" size="small" onClick={e => this.view(row.id)}>
                   查看
                 </Button>
                 &nbsp;
@@ -104,10 +96,10 @@ export default class ProductList extends React.Component {
           }
         }
       ],
-      listType: "list", // 设置商品列表请求的数据类型
+      listType: 'list', // 设置商品列表请求的数据类型
       search: {
-        type: "productId",
-        value: ""
+        type: 'productId',
+        value: ''
       } // 根据ID搜索 | 根据名称搜索
     };
     this.getTableData = this.getTableData.bind(this);
@@ -119,10 +111,12 @@ export default class ProductList extends React.Component {
     const request = {};
     request.pageNum = this.state.current;
     request.pageSize = this.state.pageSize;
-    if (this.state.listType === "search") {
+    // console.log(this.state.pageSize);
+    // return;
+    if (this.state.listType === 'search') {
       request[this.state.search.type] = this.state.search.value; // 根据ID搜索 | 根据名称搜索
       request.listType = this.state.listType; // 区分表格是否为搜索模式
-      if (this.state.search.type === "productId") {
+      if (this.state.search.type === 'productId') {
         delete request.pageSize;
       }
     }
@@ -149,22 +143,21 @@ export default class ProductList extends React.Component {
   }
   // 查看商品详情
   view(id) {
-    this.props.history.push("/product/detail/" + id);
+    this.props.history.push('/product/detail/' + id);
   }
   // 编辑商品
   edit(id) {
-    this.props.history.push("/product/save/" + id);
+    this.props.history.push('/product/save/' + id);
   }
   // 增加商品
   addProduct() {
-    this.props.history.push("/product/save");
+    this.props.history.push('/product/save');
   }
   // 改变商品状态，上架 / 下架
   onSetProductStatus(info) {
     let newStatus = info.status == 1 ? 2 : 1,
       that = this,
-      confrimTips =
-        info.status == 1 ? "确定要下架该商品？" : "确定要上架该商品？";
+      confrimTips = info.status == 1 ? '确定要下架该商品？' : '确定要上架该商品？';
     confirm({
       content: confrimTips,
       onOk() {
@@ -184,7 +177,7 @@ export default class ProductList extends React.Component {
           );
       },
       onCancel() {
-        console.log("Cancel");
+        console.log('Cancel');
       }
     });
   }
@@ -213,7 +206,7 @@ export default class ProductList extends React.Component {
   }
   // 搜索
   toSearch(value) {
-    let listType = value === "" ? "list" : "search";
+    let listType = value === '' ? 'list' : 'search';
     this.setState(
       {
         pageNum: 1,
@@ -236,10 +229,7 @@ export default class ProductList extends React.Component {
           <Col span={24}>
             <Row type="flex" justify="space-between">
               <Col span={12}>
-                <Select
-                  defaultValue={this.state.search.type}
-                  onChange={e => this.setSearchType(e)}
-                >
+                <Select defaultValue={this.state.search.type} onChange={e => this.setSearchType(e)}>
                   <Option value="productId">按商品id查询</Option>
                   <Option value="productName">按商品名称查询</Option>
                 </Select>
@@ -270,6 +260,7 @@ export default class ProductList extends React.Component {
             />
           </Col>
         </Row>
+        <div>content</div>
       </div>
     );
   }

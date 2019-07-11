@@ -44,11 +44,11 @@ class CategoryAddPage extends React.Component {
                 id: 0,
                 name: "根品类"
               },
-              ...res.data
+              ...res
             ]
           },
           () => {
-            console.log(typeof this.state.parentCategoryId);
+            // console.log(typeof this.state.parentCategoryId);
             this.props.form.setFieldsValue({
               select: this.state.parentCategoryId
             });
@@ -61,7 +61,7 @@ class CategoryAddPage extends React.Component {
     );
   }
   handleChange(value) {
-    console.log(`selected ${value}`);
+    // console.log(`selected ${value}`);
   }
   handleSubmit(e) {
     e.preventDefault();
@@ -72,14 +72,15 @@ class CategoryAddPage extends React.Component {
           categoryName: values.name
         })
         .then(
-          res => {
-            message.success(res.msg, 0.5).then(() => {
-              this.props.history.push(
+          msg => {
+            message.success(msg, 0.5).then(() => {
+              this.props.history.go(-1);
+              /*this.props.history.push(
                 "/product-category/index" +
                   (this.state.parentCategoryId > 0
                     ? "/" + this.state.parentCategoryId
                     : "")
-              );
+              );*/
             });
             // console.log(res);
           },
@@ -88,7 +89,7 @@ class CategoryAddPage extends React.Component {
           }
         );
     });
-    console.log(this.state.categoryList);
+    // console.log(this.state.categoryList);
   }
   render() {
     const { categoryList, parentCategoryId } = this.state;

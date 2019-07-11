@@ -120,6 +120,7 @@ export default class ProductCategory extends React.Component {
   componentWillMount() {
     // console.log(this.state.parentCategoryId);
     this.loadCategoryList();
+    // console.log(this.props)
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -141,7 +142,7 @@ export default class ProductCategory extends React.Component {
       res => {
         // console.log(res);
         this.setState({
-          list: res.data
+          list: res
         });
       },
       err => {
@@ -155,7 +156,7 @@ export default class ProductCategory extends React.Component {
   }
 
   handleSave = row => {
-    console.log(row);
+    // console.log(row);
     const newData = [...this.state.list];
     const index = newData.findIndex(item => row.id === item.id);
     const oldName = row.name;
@@ -175,7 +176,7 @@ export default class ProductCategory extends React.Component {
       })
       .then(
         res => {
-          console.log(res);
+          // console.log(res);
           message.success(res.message, 0.5);
         },
         err => {

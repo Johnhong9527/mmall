@@ -12,7 +12,7 @@ export default class User {
   }
   // 用户列表  /manage/user/list.do
   list(request) {
-    return post('/manage/user/list.do', request);
+    return get('/manage/user/list', request);
   }
   // 用户退出登录
   logout() {

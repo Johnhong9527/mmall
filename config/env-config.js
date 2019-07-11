@@ -53,8 +53,8 @@ const HOST_CONF = HOST_ENV ? ENV_LIST.find(item => item.envName === HOST_ENV) : 
 // 把环境常量挂载到process.env.HOST_ENV方便客户端使用
 process.env.BASE_URL = HOST_CONF.baseUrl;
 // log选中的变量
-console.log(chalk.green("当前环境常量："));
-console.log("http://localhost:8080");
+// console.log(chalk.green("当前环境常量："));
+// console.log("http://localhost:8080");
 
 
 module.exports.HOST_CONF = HOST_CONF;

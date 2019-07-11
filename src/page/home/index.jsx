@@ -39,7 +39,7 @@ export default class Home extends React.Component {
   }
 
   getUser() {
-    console.log(7);
+    // console.log(7);
   }
 
   render() {

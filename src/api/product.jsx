@@ -5,7 +5,6 @@
  * @Last Modified time: 2019-06-11 14:34:34
  */
 import { post, get } from 'util/http.jsx';
-import get_category from 'api/get_category.jsx';
 
 export default class Product {
   // 获取商品列表

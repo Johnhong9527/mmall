@@ -6,7 +6,8 @@
  */
 import axios from "axios";
 import MUtil from "util/mutil.jsx";
-import { message } from "antd";
+import {message} from "antd";
+
 const _mutil = new MUtil();
 // 请求列表
 const requestList = [];
@@ -32,13 +33,13 @@ axios.interceptors.request.use(
     }
     return config;
   },
-  function(error) {
+  function (error) {
     return Promise.reject(error);
-  }
+  },
 );
 
 axios.interceptors.response.use(
-  function(response) {
+  function (response) {
     const request =
       JSON.stringify(response.config.url) +
       JSON.stringify(response.config.data);
@@ -47,6 +48,11 @@ axios.interceptors.response.use(
       // 请求结束，取消loading
     }
     if (response.data.status === 0) {
+      // console.log(response.config.url);
+      if (response.config.url ===
+        "/manage/user/login") {
+        return response.data;
+      }
       return response.data.msg || response.data.data;
     } else if (response.data.status === 10) {
       _mutil.doLogin();
@@ -55,17 +61,17 @@ axios.interceptors.response.use(
       return Promise.reject(response.data.msg || response.data.data);
     }
   },
-  function(error) {
+  function (error) {
     if (axios.isCancel(error)) {
       requestList.length = 0;
       throw new axios.Cancel("cancel request");
     } else {
     }
     return Promise.reject(error);
-  }
+  },
 );
 
-const request = function(url, params, config, method) {
+const request = function (url, params, config, method) {
   let fd = null;
   if (method === "post" && params) {
     fd = new FormData();
@@ -90,11 +96,11 @@ const request = function(url, params, config, method) {
       Object.assign(
         {
           headers: {
-            "Content-Type": "multipart/form-data"
-          }
+            "Content-Type": "multipart/form-data",
+          },
         },
-        config
-      )
+        config,
+      ),
     )
       .then(
         response => {
@@ -108,7 +114,7 @@ const request = function(url, params, config, method) {
           } else {
             reject(err);
           }
-        }
+        },
       )
       .catch(err => {
         reject(err);
@@ -124,4 +130,4 @@ const get = (url, params, config = {}) => {
   return request(url, params, config, "get");
 };
 
-export { sources, post, get };
+export {sources, post, get};
